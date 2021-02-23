@@ -217,5 +217,23 @@ namespace Belmont_Sales_Tax
         {
             return value = Math.Round(value, 2, MidpointRounding.AwayFromZero);
         }
+
+        /// <summary>
+        /// Gets the default basic sales tax rate.
+        /// </summary>
+        /// <returns>Basic sales tax rate.</returns>
+        public static double GetSalesTaxRate()
+        {
+            return salesTaxRate;
+        }
+
+        /// <summary>
+        /// Gets the default import tax rate.
+        /// </summary>
+        /// <returns>Import tax rate.</returns>
+        public static double GetImportTaxRate()
+        {
+            return importTaxRate;
+        }
     }    
 }

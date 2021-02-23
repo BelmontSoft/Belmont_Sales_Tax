@@ -27,7 +27,7 @@ namespace BST_Tests
             testDict = testCart.GetContents();
 
             Assert.IsTrue(testDict[sake] == 1);
-            Assert.IsTrue(testDict[sake] == 3);
+            Assert.IsTrue(testDict[chocolate] == 3);
         }
 
         [TestMethod]

@@ -17,7 +17,7 @@ namespace Belmont_Sales_Tax
 {
     public class ContainerPluralsList
     {
-        private const String filepath = @"../Resources/ContainerPlurals.csv";
+        private const String filepath = @"../Belmont_Sales_Tax/Resources/ContainerPlurals.csv";
         private Dictionary<String, String> containerPlurals;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Belmont_Sales_Tax
         /// </summary>
         private void InitDictionary()
         {
-            var projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            var projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             string exemptItemsFullFilepath = Path.Combine(projectPath, filepath);
 
             var reader = new StreamReader(exemptItemsFullFilepath);

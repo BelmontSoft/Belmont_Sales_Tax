@@ -14,7 +14,7 @@ namespace Belmont_Sales_Tax
 {
     public class ExemptionList
     {
-        private const String filepath = @"../Resources/ExemptItems.csv";
+        private const String filepath = @"../Belmont_Sales_Tax/Resources/ExemptItems.csv";
         private List<String> exemptItems;
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Belmont_Sales_Tax
         /// </summary>
         private void InitList()
         {
-            var projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            var projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             string exemptItemsFullFilepath = Path.Combine(projectPath, filepath);
 
             var reader = new StreamReader(exemptItemsFullFilepath);

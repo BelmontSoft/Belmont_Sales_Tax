@@ -26,7 +26,7 @@ namespace Belmont_Sales_Tax
         /// <param name="price">The amount the item costs. Must be non-negative.</param>
         public Item(String name, double price)
         {
-            if (name != null && price >= 0)
+            if (name.Length != 0 && price >= 0)
             {
                 this.name = name;
                 this.price = RoundPrice(price);
@@ -46,7 +46,7 @@ namespace Belmont_Sales_Tax
         /// <param name="isBasicTaxExempt">Whether the item is exempt from basic taxes.</param>
         public Item(String name, double price, bool isBasicTaxExempt)
         {
-            if (name != null && price >= 0)
+            if (name.Length != 0 && price >= 0)
             {
                 this.name = name;
                 this.price = RoundPrice(price);
@@ -68,12 +68,12 @@ namespace Belmont_Sales_Tax
         /// <param name="isImported">Whether the item is imported.</param>
         public Item(String name, double price, bool isBasicTaxExempt, bool isImported)
         {
-            if (name != null && price >= 0)
+            if (name.Length != 0 && price >= 0)
             {
                 this.name = name;
-            this.price = RoundPrice(price);
-            this.isBasicTaxExempt = isBasicTaxExempt;
-            this.isImported = isImported;
+                this.price = RoundPrice(price);
+                this.isBasicTaxExempt = isBasicTaxExempt;
+                this.isImported = isImported;
             }
             else
             {
@@ -165,7 +165,7 @@ namespace Belmont_Sales_Tax
         /// <param name="name">Name to set. Must not be null.</param>
         public void SetName(String name)
         {
-            if (name != null)
+            if (name.Length != 0)
             {
                 this.name = name;
             }

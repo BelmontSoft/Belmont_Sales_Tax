@@ -31,7 +31,6 @@ namespace Belmont_Sales_Tax
             double totalCost = 0;
             int quantity = 0;
             double previousItemCategoryCost = 0;
-            double itemTax = 0;
             double itemCost = 0;
             String previousItemCategory = null;
 
@@ -58,10 +57,7 @@ namespace Belmont_Sales_Tax
                         quantity = itemSet.Value;
                         
                         // Get Item's tax info, add to running total.
-                        itemTax = CalculateItemTaxes(itemSet.Key);
-                        salesTaxTotal += (itemTax * quantity);
-                        itemCost = itemSet.Key.GetPrice() + itemTax;
-                        totalCost = (itemCost * quantity);
+                        UpdateCosts(itemSet, ref itemCost, ref salesTaxTotal, ref totalCost);
 
                         // Record this Item's name and cost in case the following item is of the same type; makes for cleaner printing.
                         previousItemCategoryCost = (itemCost * quantity);
@@ -82,10 +78,7 @@ namespace Belmont_Sales_Tax
                             quantity = itemSet.Value;
 
                             // Get Item's tax info, add to running total.
-                            itemTax = CalculateItemTaxes(itemSet.Key);
-                            salesTaxTotal += (itemTax * quantity);
-                            itemCost = itemSet.Key.GetPrice() + itemTax;
-                            totalCost += (itemCost * quantity);
+                            UpdateCosts(itemSet, ref itemCost, ref salesTaxTotal, ref totalCost);
 
                             // Record this Item's cost in case the following item is of the same type; makes for cleaner printing.
                             previousItemCategoryCost += (itemCost * quantity);
@@ -103,10 +96,7 @@ namespace Belmont_Sales_Tax
                             quantity = itemSet.Value;
 
                             // Get Item's tax info, add to running total.
-                            itemTax = CalculateItemTaxes(itemSet.Key);
-                            salesTaxTotal += (itemTax * quantity);
-                            itemCost = itemSet.Key.GetPrice() + itemTax;
-                            totalCost += (itemCost * quantity);
+                            UpdateCosts(itemSet, ref itemCost, ref salesTaxTotal, ref totalCost);
 
                             // Record this Item's cost in case the following item is of the same type; makes for cleaner printing.
                             previousItemCategoryCost += (itemCost * quantity);
@@ -127,10 +117,7 @@ namespace Belmont_Sales_Tax
                         quantity = itemSet.Value;
 
                         // Get Item's tax info, add to running total.
-                        itemTax = CalculateItemTaxes(itemSet.Key);
-                        salesTaxTotal += (itemTax * quantity);
-                        itemCost = itemSet.Key.GetPrice() + itemTax;
-                        totalCost += (itemCost * quantity);
+                        UpdateCosts(itemSet, ref itemCost, ref salesTaxTotal, ref totalCost);
 
                         // Item quantity is greater than 1; add the (quantity @ price) bracket to the new receipt line.
                         receiptLine = new StringBuilder();
@@ -153,10 +140,7 @@ namespace Belmont_Sales_Tax
                         quantity = itemSet.Value;
 
                         // Get Item's tax info, add to running total.
-                        itemTax = CalculateItemTaxes(itemSet.Key);
-                        salesTaxTotal += (itemTax * quantity);
-                        itemCost = itemSet.Key.GetPrice() + itemTax;
-                        totalCost += (itemCost * quantity);
+                        UpdateCosts(itemSet, ref itemCost, ref salesTaxTotal, ref totalCost);
 
                         // Record this Item's name and cost in case the following item is of the same type; makes for cleaner printing.
                         previousItemCategoryCost = (itemCost * quantity);
@@ -183,6 +167,21 @@ namespace Belmont_Sales_Tax
         }
 
         /// <summary>
+        /// Gets an <Item, Quantity> set's tax info then uses it to update all related running totals.
+        /// </summary>
+        /// <param name="itemSet"><Item, Int> set representing an Item and its quantity.</Item></param>
+        /// <param name="itemCost">Price recorded for the Item. Passed by reference.</param>
+        /// <param name="salesTaxTotal">The running total of sales taxes. Passed by reference.</param>
+        /// <param name="totalCost">The running total of all costs. Passed by reference.</param>
+        private static void UpdateCosts(KeyValuePair<Item, int> itemSet, ref double itemCost, ref double salesTaxTotal, ref double totalCost)
+        {
+            double itemTax = CalculateItemTaxes(itemSet.Key);
+            salesTaxTotal += (itemTax * itemSet.Value);
+            itemCost = itemSet.Key.GetPrice() + itemTax;
+            totalCost += (itemCost * itemSet.Value);
+        }
+
+        /// <summary>
         /// Calculates an Item's Basic Sales Tax and the Imported Tax. 
         /// </summary>
         /// <param name="item">Item to tax.</param>
@@ -204,8 +203,7 @@ namespace Belmont_Sales_Tax
             }
 
             // Return the sum of the two tax values rounded up to the nearest 0.05.
-            return Math.Round((Math.Round((basicSalesTax + importTax) * 20, MidpointRounding.AwayFromZero) / 20), 1);
-
+            return Math.Round((Math.Ceiling((basicSalesTax + importTax) * 20) / 20), 2);
         }
 
         /// <summary>

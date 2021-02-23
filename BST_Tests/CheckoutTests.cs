@@ -28,16 +28,13 @@ namespace BST_Tests
             Assert.AreEqual(Checkout.CalculateItemTaxes(basicTaxExemptItem), 0);
             Assert.AreEqual(
                 Checkout.CalculateItemTaxes(basicItem),
-                Math.Round((Math.Round((basicItem.GetPrice() * basicTaxRate) * 20, MidpointRounding.AwayFromZero) / 20), 1)
-                );
+                (Math.Ceiling((basicItem.GetPrice() * basicTaxRate) * 20) / 20), 2);
             Assert.AreEqual(
                 Checkout.CalculateItemTaxes(basicTaxFreeImportedItem),
-                Math.Round((Math.Round((basicTaxFreeImportedItem.GetPrice() * importTaxRate) * 20, MidpointRounding.AwayFromZero) / 20), 1)
-                );
+                (Math.Ceiling((basicTaxFreeImportedItem.GetPrice() * importTaxRate) * 20) / 20), 2);
             Assert.AreEqual(
-               Checkout.CalculateItemTaxes(importedItem),
-               Math.Round((Math.Round(((importedItem.GetPrice() * importTaxRate) + (importedItem.GetPrice() * basicTaxRate)) * 20, MidpointRounding.AwayFromZero) / 20), 1)
-               );
+                Checkout.CalculateItemTaxes(importedItem),
+                (Math.Ceiling(((importedItem.GetPrice() * importTaxRate) + (importedItem.GetPrice() * basicTaxRate)) * 20) / 20), 2);
         }
     }
 }
